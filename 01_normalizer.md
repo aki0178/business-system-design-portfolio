@@ -45,33 +45,43 @@
 
 ### 4.1 全体構造
 
-```
-┌──────────────────────────────────────────────────┐
-│ Module_main.Main()  ← エントリーポイント            │
-└──────────────┬───────────────────────────────────┘
-               │
-   ┌───────────▼────────────┐
-   │ ステップ1: 列検出・集計    │
-   │ Class_ColumnDetectionCore.Run()│
-   │   ├ EvaluateColumnFromRow (スコアリング)│
-   │   ├ Class_DetectionHelpers │
-   │   ├ AnalyzeHeaderStructure (マージ展開)│
-   │   └ FindTargetColumnsInHeader │
-   └───────────┬────────────┘
-               │ DetectionResult
-   ┌───────────▼────────────┐
-   │ ステップ2: 企画台数検証    │
-   │ Module_PlanningQuantityCheck │
-   │   ├ N-gramスコアリング     │
-   │   └ ExtractPlanningNumber  │
-   └───────────┬────────────┘
-               │ 更新後 DetectionResult
-   ┌───────────▼────────────┐
-   │ ステップ3: データ転記      │
-   │ Module_Transfer            │
-   │   ├ プレビュー＋ログ出力     │
-   │   └ ExecuteTransfer        │
-   └────────────────────────┘
+### 4.1 全体構造
+
+```mermaid
+flowchart TD
+    Main["Module_main.Main()<br/>― エントリーポイント ―"]
+
+    subgraph Step1["ステップ1: 列検出・集計"]
+        Core["Class_ColumnDetectionCore.Run()"]
+        Eval["EvaluateColumnFromRow<br/>（スコアリング）"]
+        Helpers["Class_DetectionHelpers"]
+        Header["AnalyzeHeaderStructure<br/>（マージ展開）"]
+        Find["FindTargetColumnsInHeader"]
+        Core --> Eval
+        Core --> Helpers
+        Core --> Header
+        Core --> Find
+    end
+
+    subgraph Step2["ステップ2: 企画台数検証"]
+        PQC["Module_PlanningQuantityCheck"]
+        NGram["N-gramスコアリング"]
+        Extract["ExtractPlanningNumber"]
+        PQC --> NGram
+        PQC --> Extract
+    end
+
+    subgraph Step3["ステップ3: データ転記"]
+        Transfer["Module_Transfer"]
+        Preview["プレビュー＋ログ出力"]
+        Exec["ExecuteTransfer"]
+        Transfer --> Preview
+        Transfer --> Exec
+    end
+
+    Main --> Step1
+    Step1 -- "DetectionResult" --> Step2
+    Step2 -- "更新後 DetectionResult" --> Step3
 ```
 
 ### 4.2 主要クラス・モジュールの責務
