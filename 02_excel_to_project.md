@@ -43,26 +43,32 @@
 
 ```mermaid
 flowchart TB
-    subgraph Excel["個人スケジュール.xlsm"]
-        Rows["B2: デフォルトリソース名"<br/>"5行目〜<br/>A=大項目<br/>B=中項目<br/>C=小項目<br/>D=詳細<br/>E=開始<br/>F=締切<br/>G=終了<br/>H=工数<br/>I=行リソース<br/>J=完了フラグ"]
+    subgraph Excel["📘 個人スケジュール.xlsm（入力）"]
+        direction TB
+        B2["B2セル<br/>デフォルトリソース名"]
+        Rows["5行目〜（タスク行）<br/>A:大項目 / B:中項目 / C:小項目 / D:詳細<br/>E:開始 / F:締切 / G:終了<br/>H:工数 / I:行リソース / J:完了フラグ"]
+        B2 ~~~ Rows
     end
 
-    subgraph Module["Module_TransferTaskData"]
-        Cache["CacheExistingTasks<br/>（事前キャッシュ）"]
-        Build["BuildLogicalLevels<br/>（階層正規化）"]
-        Key["BuildFullKey<br/>（キー生成）"]
-        Proc["ProcessTaskHierarchy…<br/>（5分岐の本流）"]
-        Upd["UpdateResourceFromSource<br/>（業務ルール適用）"]
-        Cache ~~~ Build ~~~ Key ~~~ Proc ~~~ Upd
+    subgraph Module["⚙ Module_TransferTaskData（転記処理）"]
+        direction TB
+        Cache["① CacheExistingTasks<br/>既存タスクを二段辞書にキャッシュ"]
+        Build["② BuildLogicalLevels<br/>中抜けを詰めて論理階層に正規化"]
+        Key["③ BuildFullKey<br/>4階層固定キーを生成"]
+        Proc["④ ProcessTaskHierarchy…<br/>5分岐で追加 / 更新 / SKIP"]
+        Upd["⑤ UpdateResourceFromSource<br/>業務ルールに沿ってリソース反映"]
+        Cache --> Build --> Key --> Proc --> Upd
     end
 
-    subgraph Project["Microsoft Project (ActiveProject)"]
-        Items["Tasks<br/>Resources<br/>Assignments"]
+    subgraph Project["📊 Microsoft Project（出力）"]
+        direction TB
+        Items["ActiveProject<br/>Tasks ／ Resources ／ Assignments"]
     end
 
-    Excel --> Module
-    Module -- "COM" --> Project
+    Excel -- "TransferTaskData()" --> Module
+    Module -- "COM Automation" --> Project
 ```
+
 
 ### 4.2 データ契約（入力Excel）
 
