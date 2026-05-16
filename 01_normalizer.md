@@ -49,40 +49,39 @@
 flowchart TB
     Main["Module_main.Main()　← エントリーポイント"]
 
-    Step1Title["■ ステップ1: 列検出・集計"]
-    Core["Class_ColumnDetectionCore.Run()"]
-    Eval["├ EvaluateColumnFromRow（スコアリング）"]
-    Helpers["├ Class_DetectionHelpers"]
-    Header["├ AnalyzeHeaderStructure（マージ展開）"]
-    Find["└ FindTargetColumnsInHeader"]
+    subgraph Step1["ステップ1: 列検出・集計"]
+        Core["Class_ColumnDetectionCore.Run()"]
+        Eval["├ EvaluateColumnFromRow（スコアリング）"]
+        Helpers["├ Class_DetectionHelpers"]
+        Header["├ AnalyzeHeaderStructure（マージ展開）"]
+        Find["└ FindTargetColumnsInHeader"]
+        Core ~~~ Eval
+        Eval ~~~ Helpers
+        Helpers ~~~ Header
+        Header ~~~ Find
+    end
 
-    Step2Title["■ ステップ2: 企画台数検証"]
-    PQC["Module_PlanningQuantityCheck"]
-    NGram["├ N-gramスコアリング"]
-    Extract["└ ExtractPlanningNumber"]
+    subgraph Step2["ステップ2: 企画台数検証"]
+        PQC["Module_PlanningQuantityCheck"]
+        NGram["├ N-gramスコアリング"]
+        Extract["└ ExtractPlanningNumber"]
+        PQC ~~~ NGram
+        NGram ~~~ Extract
+    end
 
-    Step3Title["■ ステップ3: データ転記"]
-    Transfer["Module_Transfer"]
-    Preview["├ プレビュー＋ログ出力"]
-    Exec["└ ExecuteTransfer"]
+    subgraph Step3["ステップ3: データ転記"]
+        Transfer["Module_Transfer"]
+        Preview["├ プレビュー＋ログ出力"]
+        Exec["└ ExecuteTransfer"]
+        Transfer ~~~ Preview
+        Preview ~~~ Exec
+    end
 
-    Main ==> Step1Title
-    Step1Title ~~~ Core
-    Core ~~~ Eval
-    Eval ~~~ Helpers
-    Helpers ~~~ Header
-    Header ~~~ Find
-
-    Find -- "DetectionResult" --> Step2Title
-    Step2Title ~~~ PQC
-    PQC ~~~ NGram
-    NGram ~~~ Extract
-
-    Extract -- "更新後 DetectionResult" --> Step3Title
-    Step3Title ~~~ Transfer
-    Transfer ~~~ Preview
-    Preview ~~~ Exec
+    Main --> Step1
+    Step1 -- "DetectionResult" --> Step2
+    Step2 -- "更新後 DetectionResult" --> Step3
 ```
+
 
 
 
