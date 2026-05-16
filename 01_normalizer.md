@@ -49,30 +49,25 @@
 flowchart TB
     Main["Module_main.Main()　← エントリーポイント"]
 
-    subgraph Step1["ステップ1: 列検出・集計　Class_ColumnDetectionCore.Run()"]
+    subgraph Step1["ステップ1: 列検出・集計　／　Class_ColumnDetectionCore.Run()"]
         Eval["EvaluateColumnFromRow（スコアリング）"]
         Helpers["Class_DetectionHelpers"]
         Header["AnalyzeHeaderStructure（マージ展開）"]
         Find["FindTargetColumnsInHeader"]
-        Core ~~~ Eval
         Eval ~~~ Helpers
         Helpers ~~~ Header
         Header ~~~ Find
     end
 
-    subgraph Step2["ステップ2: 企画台数検証"]
-        PQC["Module_PlanningQuantityCheck"]
+    subgraph Step2["ステップ2: 企画台数検証　／　Module_PlanningQuantityCheck"]
         NGram["N-gramスコアリング"]
         Extract["ExtractPlanningNumber"]
-        PQC ~~~ NGram
         NGram ~~~ Extract
     end
 
-    subgraph Step3["ステップ3: データ転記"]
-        Transfer["Module_Transfer"]
+    subgraph Step3["ステップ3: データ転記　／　Module_Transfer"]
         Preview["プレビュー＋ログ出力"]
         Exec["ExecuteTransfer"]
-        Transfer ~~~ Preview
         Preview ~~~ Exec
     end
 
@@ -80,9 +75,6 @@ flowchart TB
     Step1 -- "DetectionResult" --> Step2
     Step2 -- "更新後 DetectionResult" --> Step3
 ```
-
-
-
 
 ### 4.2 主要クラス・モジュールの責務
 
