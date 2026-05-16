@@ -51,7 +51,7 @@ flowchart TD
         P1 --- P3
     end
 
-    subgraph T["対象ブック (.xlsm)"]
+    subgraph T["対象ブック (.xlsm)　　　　"]
         direction TB
         T1["ThisWorkbook"]
         T2["Workbook_BeforeSave<br/>（保存のたびに実行）"]
