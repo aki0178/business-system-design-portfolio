@@ -49,12 +49,11 @@
 flowchart TB
     Main["Module_main.Main()　← エントリーポイント"]
 
-    subgraph Step1["ステップ1: 列検出・集計"]
-        Core["Class_ColumnDetectionCore.Run()"]
-        Eval["├ EvaluateColumnFromRow（スコアリング）"]
-        Helpers["├ Class_DetectionHelpers"]
-        Header["├ AnalyzeHeaderStructure（マージ展開）"]
-        Find["└ FindTargetColumnsInHeader"]
+    subgraph Step1["ステップ1: 列検出・集計　Class_ColumnDetectionCore.Run()"]
+        Eval["EvaluateColumnFromRow（スコアリング）"]
+        Helpers["Class_DetectionHelpers"]
+        Header["AnalyzeHeaderStructure（マージ展開）"]
+        Find["FindTargetColumnsInHeader"]
         Core ~~~ Eval
         Eval ~~~ Helpers
         Helpers ~~~ Header
@@ -63,16 +62,16 @@ flowchart TB
 
     subgraph Step2["ステップ2: 企画台数検証"]
         PQC["Module_PlanningQuantityCheck"]
-        NGram["├ N-gramスコアリング"]
-        Extract["└ ExtractPlanningNumber"]
+        NGram["N-gramスコアリング"]
+        Extract["ExtractPlanningNumber"]
         PQC ~~~ NGram
         NGram ~~~ Extract
     end
 
     subgraph Step3["ステップ3: データ転記"]
         Transfer["Module_Transfer"]
-        Preview["├ プレビュー＋ログ出力"]
-        Exec["└ ExecuteTransfer"]
+        Preview["プレビュー＋ログ出力"]
+        Exec["ExecuteTransfer"]
         Transfer ~~~ Preview
         Preview ~~~ Exec
     end
