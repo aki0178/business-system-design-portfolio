@@ -45,27 +45,26 @@
 flowchart TB
     subgraph Excel["個人スケジュール.xlsm"]
         B2["B2: デフォルトリソース名"]
-        Rows["5行目〜<br/>A=大項目 / B=中項目 / C=小項目 / D=詳細<br/>E=開始 / F=締切 / G=終了<br/>H=工数 / I=行リソース / J=完了フラグ"]
+        Rows["5行目〜<br/>A=大項目<br/>B=中項目<br/>C=小項目<br/>D=詳細<br/>E=開始<br/>F=締切<br/>G=終了<br/>H=工数<br/>I=行リソース<br/>J=完了フラグ"]
         B2 ~~~ Rows
     end
 
     subgraph Module["Module_TransferTaskData"]
-        Cache["CacheExistingTasks（事前キャッシュ）"]
-        Build["BuildLogicalLevels（階層正規化）"]
-        Key["BuildFullKey（キー生成）"]
-        Proc["ProcessTaskHierarchy…（5分岐の本流）"]
-        Upd["UpdateResourceFromSource（業務ルール適用）"]
+        Cache["CacheExistingTasks<br/>（事前キャッシュ）"]
+        Build["BuildLogicalLevels<br/>（階層正規化）"]
+        Key["BuildFullKey<br/>（キー生成）"]
+        Proc["ProcessTaskHierarchy…<br/>（5分岐の本流）"]
+        Upd["UpdateResourceFromSource<br/>（業務ルール適用）"]
         Cache ~~~ Build ~~~ Key ~~~ Proc ~~~ Upd
     end
 
     subgraph Project["Microsoft Project (ActiveProject)"]
-        Items["Tasks / Resources / Assignments"]
+        Items["Tasks<br/>Resources<br/>Assignments"]
     end
 
     Excel -- "TransferTaskData()" --> Module
     Module -- "COM" --> Project
 ```
-
 
 ### 4.2 データ契約（入力Excel）
 
