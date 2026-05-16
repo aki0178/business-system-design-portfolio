@@ -49,19 +49,19 @@
 flowchart TB
     Main["Module_main.Main()<br/>― エントリーポイント ―"]
 
-    subgraph Step1["ステップ1: 列検出・集計　／　Class_ColumnDetectionCore.Run()"]
+    subgraph Step1["ステップ1: 列検出・集計/Class_ColumnDetectionCore.Run()"]
         Eval["EvaluateColumnFromRow（スコアリング）"]
         Helpers["Class_DetectionHelpers"]
         Header["AnalyzeHeaderStructure（マージ展開）"]
         Find["FindTargetColumnsInHeader"]
     end
 
-    subgraph Step2["ステップ2: 企画台数検証　／　Module_PlanningQuantityCheck"]
+    subgraph Step2["ステップ2: 企画台数検証/Module_PlanningQuantityCheck"]
         NGram["N-gramスコアリング"]
         Extract["ExtractPlanningNumber"]
     end
 
-    subgraph Step3["ステップ3: データ転記　／　Module_Transfer"]
+    subgraph Step3["ステップ3: データ転記/Module_Transfer"]
         Preview["プレビュー＋ログ出力"]
         Exec["ExecuteTransfer"]
     end
