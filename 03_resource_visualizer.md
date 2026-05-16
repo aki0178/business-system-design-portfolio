@@ -57,7 +57,7 @@ flowchart TD
     subgraph VIS["可視化層（3本）"]
         direction TB
         V1["Module_Zanzon_Time_All<br/>全体俯瞰：人別残存時間＋ステータス"]
-        V2["Module_Resouce_Task_All<br/>個人深掘：人別×タスク内訳"]
+        V2["Module_Resource_Task_All<br/>個人深掘：人別×タスク内訳"]
         V3["Module_WorkOverNeedTimeMonth<br/>負荷判定：必要1日作業時間 vs 8h基準"]
     end
 
@@ -113,7 +113,7 @@ flowchart TD
    - 今日 + 必要日数 > 点検日 → **遅れそう**（黄）
 4. 集計テーブルと棒グラフを生成。**棒の色・セル背景色・凡例（赤/黄シェイプ）** で状態を冗長表現
 
-### 6.3 個人深掘（`Resouce_Task_All`）
+### 6.3 個人深掘（`Resource_Task_All`）
 
 1. リソース別×タスクラベル別の2階層 Dictionary で集計
 2. タスクラベルは「レベル1 / レベル2 / ... / 末端」をスラッシュ連結し**WBSの文脈ごと識別**
