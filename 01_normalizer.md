@@ -54,21 +54,16 @@ flowchart TB
         Helpers["Class_DetectionHelpers"]
         Header["AnalyzeHeaderStructure（マージ展開）"]
         Find["FindTargetColumnsInHeader"]
-        Eval ~~~ Helpers
-        Helpers ~~~ Header
-        Header ~~~ Find
     end
 
     subgraph Step2["ステップ2: 企画台数検証　／　Module_PlanningQuantityCheck"]
         NGram["N-gramスコアリング"]
         Extract["ExtractPlanningNumber"]
-        NGram ~~~ Extract
     end
 
     subgraph Step3["ステップ3: データ転記　／　Module_Transfer"]
         Preview["プレビュー＋ログ出力"]
         Exec["ExecuteTransfer"]
-        Preview ~~~ Exec
     end
 
     Main --> Step1
