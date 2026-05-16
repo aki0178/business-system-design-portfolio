@@ -47,7 +47,7 @@
 
 ```mermaid
 flowchart TB
-    Main["Module_main.Main()　← エントリーポイント"]
+    Main["Module_main.Main()<br/>― エントリーポイント ―"]
 
     subgraph Step1["ステップ1: 列検出・集計　／　Class_ColumnDetectionCore.Run()"]
         Eval["EvaluateColumnFromRow（スコアリング）"]
