@@ -51,13 +51,15 @@ flowchart TD
         P1 --- P3
     end
 
-    subgraph T["対象ブック (.xlsm)　　　　"]
+    subgraph T["対象ブック (.xlsm)"]
         direction TB
+        TS[" "]:::spacer
         T1["ThisWorkbook"]
         T2["Workbook_BeforeSave<br/>（保存のたびに実行）"]
         T3["VBComponents エクスポート"]
         T4["git add . / git commit"]
         T5["Debug.Print ログ出力"]
+        TS ~~~ T1
         T1 --- T2
         T2 --- T3
         T2 --- T4
@@ -68,6 +70,8 @@ flowchart TD
 
     P2 -->|"注入"| T1
     P3 --> D
+
+    classDef spacer fill:transparent,stroke:transparent,color:transparent;
 ```
 
 ### 4.2 出力先のディレクトリ設計
