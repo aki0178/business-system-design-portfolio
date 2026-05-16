@@ -46,36 +46,44 @@
 ### 4.1 全体構造
 
 ```mermaid
-flowchart TD
+flowchart TB
     Main["Module_main.Main()　← エントリーポイント"]
 
-    subgraph Step1["ステップ1: 列検出・集計"]
-        direction TB
-        Core["Class_ColumnDetectionCore.Run()"]
-        Eval["├ EvaluateColumnFromRow（スコアリング）"]
-        Helpers["├ Class_DetectionHelpers"]
-        Header["├ AnalyzeHeaderStructure（マージ展開）"]
-        Find["└ FindTargetColumnsInHeader"]
-    end
+    Step1Title["■ ステップ1: 列検出・集計"]
+    Core["Class_ColumnDetectionCore.Run()"]
+    Eval["├ EvaluateColumnFromRow（スコアリング）"]
+    Helpers["├ Class_DetectionHelpers"]
+    Header["├ AnalyzeHeaderStructure（マージ展開）"]
+    Find["└ FindTargetColumnsInHeader"]
 
-    subgraph Step2["ステップ2: 企画台数検証"]
-        direction TB
-        PQC["Module_PlanningQuantityCheck"]
-        NGram["├ N-gramスコアリング"]
-        Extract["└ ExtractPlanningNumber"]
-    end
+    Step2Title["■ ステップ2: 企画台数検証"]
+    PQC["Module_PlanningQuantityCheck"]
+    NGram["├ N-gramスコアリング"]
+    Extract["└ ExtractPlanningNumber"]
 
-    subgraph Step3["ステップ3: データ転記"]
-        direction TB
-        Transfer["Module_Transfer"]
-        Preview["├ プレビュー＋ログ出力"]
-        Exec["└ ExecuteTransfer"]
-    end
+    Step3Title["■ ステップ3: データ転記"]
+    Transfer["Module_Transfer"]
+    Preview["├ プレビュー＋ログ出力"]
+    Exec["└ ExecuteTransfer"]
 
-    Main --> Step1
-    Step1 -- "DetectionResult" --> Step2
-    Step2 -- "更新後 DetectionResult" --> Step3
+    Main ==> Step1Title
+    Step1Title ~~~ Core
+    Core ~~~ Eval
+    Eval ~~~ Helpers
+    Helpers ~~~ Header
+    Header ~~~ Find
+
+    Find -- "DetectionResult" --> Step2Title
+    Step2Title ~~~ PQC
+    PQC ~~~ NGram
+    NGram ~~~ Extract
+
+    Extract -- "更新後 DetectionResult" --> Step3Title
+    Step3Title ~~~ Transfer
+    Transfer ~~~ Preview
+    Preview ~~~ Exec
 ```
+
 
 
 ### 4.2 主要クラス・モジュールの責務
