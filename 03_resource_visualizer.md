@@ -42,28 +42,26 @@ Microsoft Project の .mpp から WBS・進捗・EVM 指標を抽出し、人別
 
 ### 4.1 全体構造
 
-```
-┌─────────────────────────────────────┐
-│ Microsoft Project (.mpp)            │
-└──────────────┬──────────────────────┘
-               │ COM 連携 (MSProject.Application)
-               ▼
-┌─────────────────────────────────────┐
-│ Module_ExtractProjectData           │  ← データ抽出層
-│  ├ 全タスク走査                      │
-│  ├ EVM 指標を1回だけ事前計算          │
-│  ├ 階層レベルを動的に列展開            │
-│  └ 「抽出データ_MMdd_HHmm」シート生成  │
-└──────────────┬──────────────────────┘
-               │ シート参照（疎結合）
-               ▼
-┌─────────────────────────────────────┐
-│ 可視化層（3本）                      │
-│  ├ Module_Zanzon_Time_All            │ 全体俯瞰：人別残存時間＋ステータス
-│  ├ Module_Resouce_Task_All           │ 個人深掘：人別×タスク内訳
-│  └ Module_WorkOverNeedTimeMonth      │ 負荷判定：必要1日作業時間 vs 8h基準
-└─────────────────────────────────────┘
-```
+flowchart TD
+    A["Microsoft Project (.mpp)"]
+
+    subgraph EXT["Module_ExtractProjectData（データ抽出層）"]
+        direction TB
+        E1["全タスク走査"]
+        E2["EVM 指標を1回だけ事前計算"]
+        E3["階層レベルを動的に列展開"]
+        E4["「抽出データ_MMdd_HHmm」シート生成"]
+    end
+
+    subgraph VIS["可視化層（3本）"]
+        direction TB
+        V1["Module_Zanzon_Time_All<br/>全体俯瞰：人別残存時間＋ステータス"]
+        V2["Module_Resouce_Task_All<br/>個人深掘：人別×タスク内訳"]
+        V3["Module_WorkOverNeedTimeMonth<br/>負荷判定：必要1日作業時間 vs 8h基準"]
+    end
+
+    A -->|"COM 連携 (MSProject.Application)"| EXT
+    EXT -->|"シート参照（疎結合）"| VIS
 
 ### 4.2 中間生成物（抽出データシート）の構造
 
