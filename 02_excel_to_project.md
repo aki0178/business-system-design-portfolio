@@ -41,31 +41,31 @@
 
 ### 4.1 全体構造
 
+```mermaid
+flowchart TB
+    subgraph Excel["個人スケジュール.xlsm"]
+        B2["B2: デフォルトリソース名"]
+        Rows["5行目〜<br/>A=大項目 / B=中項目 / C=小項目 / D=詳細<br/>E=開始 / F=締切 / G=終了<br/>H=工数 / I=行リソース / J=完了フラグ"]
+        B2 ~~~ Rows
+    end
+
+    subgraph Module["Module_TransferTaskData"]
+        Cache["CacheExistingTasks（事前キャッシュ）"]
+        Build["BuildLogicalLevels（階層正規化）"]
+        Key["BuildFullKey（キー生成）"]
+        Proc["ProcessTaskHierarchy…（5分岐の本流）"]
+        Upd["UpdateResourceFromSource（業務ルール適用）"]
+        Cache ~~~ Build ~~~ Key ~~~ Proc ~~~ Upd
+    end
+
+    subgraph Project["Microsoft Project (ActiveProject)"]
+        Items["Tasks / Resources / Assignments"]
+    end
+
+    Excel -- "TransferTaskData()" --> Module
+    Module -- "COM" --> Project
 ```
-┌────────────────────────────────────────────┐
-│ 個人スケジュール.xlsm                          │
-│  ├ B2: デフォルトリソース名                    │
-│  └ 5行目〜: A=大項目, B=中項目, C=小項目,      │
-│             D=詳細, E=開始, F=締切, G=終了,    │
-│             H=工数, I=行リソース, J=完了フラグ │
-└──────────────┬─────────────────────┘
-               │ TransferTaskData()
-               ▼
-┌────────────────────────────────────────────┐
-│ Module_TransferTaskData                       │
-│  ├ CacheExistingTasks       (事前キャッシュ)  │
-│  ├ BuildLogicalLevels       (階層正規化)      │
-│  ├ BuildFullKey             (キー生成)        │
-│  ├ ProcessTaskHierarchy…    (5分岐の本流)     │
-│  └ UpdateResourceFromSource (業務ルール適用)  │
-└──────────────┬─────────────────────┘
-               │ COM
-               ▼
-┌────────────────────────────────────────────┐
-│ Microsoft Project (ActiveProject)             │
-│  └ Tasks / Resources / Assignments            │
-└────────────────────────────────────────────┘
-```
+
 
 ### 4.2 データ契約（入力Excel）
 
