@@ -45,44 +45,38 @@
 
 ### 4.1 全体構造
 
-### 4.1 全体構造
-
 ```mermaid
 flowchart TD
-    Main["Module_main.Main()<br/>― エントリーポイント ―"]
+    Main["Module_main.Main()　← エントリーポイント"]
 
     subgraph Step1["ステップ1: 列検出・集計"]
+        direction TB
         Core["Class_ColumnDetectionCore.Run()"]
-        Eval["EvaluateColumnFromRow<br/>（スコアリング）"]
-        Helpers["Class_DetectionHelpers"]
-        Header["AnalyzeHeaderStructure<br/>（マージ展開）"]
-        Find["FindTargetColumnsInHeader"]
-        Core --> Eval
-        Core --> Helpers
-        Core --> Header
-        Core --> Find
+        Eval["├ EvaluateColumnFromRow（スコアリング）"]
+        Helpers["├ Class_DetectionHelpers"]
+        Header["├ AnalyzeHeaderStructure（マージ展開）"]
+        Find["└ FindTargetColumnsInHeader"]
     end
 
     subgraph Step2["ステップ2: 企画台数検証"]
+        direction TB
         PQC["Module_PlanningQuantityCheck"]
-        NGram["N-gramスコアリング"]
-        Extract["ExtractPlanningNumber"]
-        PQC --> NGram
-        PQC --> Extract
+        NGram["├ N-gramスコアリング"]
+        Extract["└ ExtractPlanningNumber"]
     end
 
     subgraph Step3["ステップ3: データ転記"]
+        direction TB
         Transfer["Module_Transfer"]
-        Preview["プレビュー＋ログ出力"]
-        Exec["ExecuteTransfer"]
-        Transfer --> Preview
-        Transfer --> Exec
+        Preview["├ プレビュー＋ログ出力"]
+        Exec["└ ExecuteTransfer"]
     end
 
     Main --> Step1
     Step1 -- "DetectionResult" --> Step2
     Step2 -- "更新後 DetectionResult" --> Step3
 ```
+
 
 ### 4.2 主要クラス・モジュールの責務
 
