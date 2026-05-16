@@ -65,7 +65,7 @@ flowchart TD
     end
 
     P2 -->|"注入"| T
-    P3 -->|"自動エクスポートコードを<br/>ThisWorkbookから削除"| T1
+    P3 -->|"自動エクスポートコードを<br/>ThisWorkbookから削除"| 
 ```
 
 ### 4.2 出力先のディレクトリ設計
