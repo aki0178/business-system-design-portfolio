@@ -42,6 +42,7 @@ Microsoft Project の .mpp から WBS・進捗・EVM 指標を抽出し、人別
 
 ### 4.1 全体構造
 
+```mermaid
 flowchart TD
     A["Microsoft Project (.mpp)"]
 
@@ -62,6 +63,7 @@ flowchart TD
 
     A -->|"COM 連携 (MSProject.Application)"| EXT
     EXT -->|"シート参照（疎結合）"| VIS
+```
 
 ### 4.2 中間生成物（抽出データシート）の構造
 
