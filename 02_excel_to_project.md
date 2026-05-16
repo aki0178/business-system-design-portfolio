@@ -44,9 +44,7 @@
 ```mermaid
 flowchart TB
     subgraph Excel["個人スケジュール.xlsm"]
-        B2["B2: デフォルトリソース名"]
-        Rows["5行目〜<br/>A=大項目<br/>B=中項目<br/>C=小項目<br/>D=詳細<br/>E=開始<br/>F=締切<br/>G=終了<br/>H=工数<br/>I=行リソース<br/>J=完了フラグ"]
-        B2 ~~~ Rows
+        Rows["B2: デフォルトリソース名"<br/>"5行目〜<br/>A=大項目<br/>B=中項目<br/>C=小項目<br/>D=詳細<br/>E=開始<br/>F=締切<br/>G=終了<br/>H=工数<br/>I=行リソース<br/>J=完了フラグ"]
     end
 
     subgraph Module["Module_TransferTaskData"]
