@@ -62,7 +62,7 @@ flowchart TB
         Items["Tasks<br/>Resources<br/>Assignments"]
     end
 
-    Excel -- "TransferTaskData()" --> Module
+    Excel --> Module
     Module -- "COM" --> Project
 ```
 
