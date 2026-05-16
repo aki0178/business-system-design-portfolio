@@ -66,7 +66,7 @@ flowchart TD
 
     D["自動エクスポートコードを<br/>ThisWorkbookから削除"]
 
-    P2 -->|"注入"| T
+    P2 -->|"注入"| T1
     P3 --> D
 ```
 
